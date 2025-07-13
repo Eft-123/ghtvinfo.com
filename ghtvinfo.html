@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home - GHTVInfo</title>
+        <link rel="icon" href="GHTVInfo.png">
+        <style>
+             /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.5;
+        }
+        
+        /* Top bar (like 3news red bar) */
+        .top-bar {
+            background: linear-gradient(90deg, red, yellow, green);
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        /* Main navigation */
+        .navbar {
+            background-color: grey;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            height: 70px;
+        }
+        
+        /* Logo styles */
+        .logo {
+            height: 40px;
+            width: 40px;
+            margin-right: 30px;
+        }
+        
+        /* Main nav links */
+        .nav-links {
+            list-style: none;
+            display: flex;
+            height: 100%;
+        }
+        .nav-links li {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links li a {
+            color: #333;
+            text-decoration: none;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+        
+        .nav-links li a:hover {
+            color: #e31837;
+        }
+        
+        /* Dropdown menus */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            top: 100%;
+            left: 0;
+            z-index: 1;
+            border-top: 3px solid #e31837;
+        }
+        
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #f0f0f0;
+            font-weight: normal;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f8f8f8;
+            color: #e31837;
+            padding-left: 25px;
+        }
+        
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+            animation: fadeIn 0.2s;
+        }
+        
+        /* Dropdown arrow indicator */
+        .dropdown > a::after {
+            content: ' ▼';
+            font-size: 0.6em;
+            color: #999;
+        }
+        
+        /* Active link style */
+        .active {
+            color: black !important;
+        }
+         /* Search and utility items */
+         .nav-utils {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-icon {
+            color: #333;
+            font-size: 18px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        
+        /* Animation for dropdown */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Mobile menu styles */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            color: #333;
+            font-size: 24px;
+            margin-left: 20px;
+        }
+        
+        /* Responsive design */
+        @media screen and (max-width: 992px) {
+            .top-bar {
+                display: none;
+            }
+            
+            .nav-container {
+                height: 60px;
+                padding: 0 15px;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                height: calc(100vh - 60px);
+                overflow-y: auto;
+                display: none;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                height: auto;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            .nav-links li a {
+                padding: 15px 20px;
+            }
+            
+            .dropdown-content {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                display: none;
+                border-top: none;
+            }
+            .dropdown:hover .dropdown-content {
+                display: none;
+            }
+            
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .gallery-container {
+            position: relative;
+            width: 1264.5px;
+            max-width: 2300px;
+            margin: 0 auto;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        
+        .gallery {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .gallery-item {
+            width: 1264.5px;
+            position: relative;
+        }
+        
+        .gallery-image {
+            width: 1264.5px;
+            height: 440px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.7);
+            color: #333;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .nav-button:hover {
+            background: rgba(255,255,255,0.9);
+        }
+        
+        .prev {
+            left: 20px;
+        }
+        
+        .next {
+            right: 20px;
+        }
+        
+        .gallery-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ccc;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .indicator.active {
+            background-color: #333;
+        }
+
+        h2 {
+    margin-bottom: 20px;
+    color: red;
+}
+
+.picture-container {
+    width: 1256px;
+    overflow-x: auto;
+    padding: 20px 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.picture {
+    display: flex;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.picture-item {
+    min-width: 200px;
+    text-align: center;
+    flex-shrink: 0;
+    transition: transform 0.3s;
+}
+
+.picture-item:hover {
+    transform: scale(1.05);
+}
+
+.tv3-image {
+    width: 220px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.picture-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.picture-caption {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+        </style>
+    </head>
+    <body>
+         <!-- Top red bar -->
+    <div class="top-bar">
+        GHTVInfo - The home of all info on the major television stations in Ghana.
+    </div>
+    
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="ghtvinfo.html">
+                <img src="GHTVInfo.png" alt="News Logo" class="logo">
+            </a>
+            
+            <!-- Main Navigation Links -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="ghtvinfo.html" class="active">Home</a></li>
+                <li class="dropdown">
+                    <a href="news.html">Channels</a>
+                    <div class="dropdown-content">
+                        <a href="ghtvinfo(TV3 Ghana).html" target="_blank"><img src="TV3 Ghana.png" width="30px" height="30px"> TV3 Ghana</a>
+                        <a href="ghtvinfo(JoyNews).html" target="_blank"><img src="JoyNews.png" width="30px" height="30px"> Joy News</a>
+                        <a href="ghtvinfo(JoyPrime).html" target="_blank"><img src="JoyPrime.png" width="30px" height="30px"> Joy Prime</a>
+                        <a href="ghtvinfo(Adom TV).html" target="_blank"><img src="Adom TV.png" width="30px" height="30px"> Adom TV</a>
+                        <a href="ghtvinfo(ChannelOne TV).html" target="_blank"><img src="ChannelOne TV.png" height="30px" width="30px"> ChannelOne TV</a>
+                        <a href="ghtvinfo(Onua TV).html" target="_blank"><img src="Onua TV.png" height="30px" width="30px"> Onua TV</a>
+                    </div>
+                </li>
+                <li><a href="ghtvinfo(about).html" target="_blank">About</a></li>
+            </ul>
+            
+            <!-- Search and mobile menu -->
+            <div class="nav-utils">
+                <div class="search-icon">🔍</div>
+                <div class="menu-toggle" id="menu-toggle">☰</div>
+            </div>
+        </div>
+    </nav>
+    <div class="gallery-container">
+        <!-- Navigation Buttons -->
+        <button class="nav-button prev" onclick="prevImage()">❮</button>
+        <button class="nav-button next" onclick="nextImage()">❯</button>
+        
+        <!-- Gallery Items -->
+        <div class="gallery" id="gallery">
+            <div class="gallery-item">
+                <img src="TV3 cover banner.png" alt="TV3 Ghana" class="gallery-image">
+                <div class="gallery-caption">TV3 Ghana</div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="JoyNews cover banner.png" alt="Joy News" class="gallery-image">
+                <div class="gallery-caption">Joy News</div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="JoyPrime cover banner.png" alt="Joy Prime" class="gallery-image">
+                <div class="gallery-caption">Joy Prime</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="Adom TV cover banner.png" alt="Adom TV" class="gallery-image">
+                <div class="gallery-caption">Adom TV</div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="ChannelOne TV cover banner.png" alt="ChannelOne TV" class="gallery-image">
+                <div class="gallery-caption">ChannelOne TV</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="Onua TV cover banner.png" alt="ChannelOne TV" class="gallery-image">
+                <div class="gallery-caption">Onua TV</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Indicators -->
+    <div class="gallery-indicators" id="indicators">
+        <!-- Indicators will be added by JavaScript -->
+    </div>
+    
+    <script>
+        const gallery = document.getElementById('gallery');
+        const indicatorsContainer = document.getElementById('indicators');
+        const items = document.querySelectorAll('.gallery-item');
+        let currentIndex = 0;
+        
+        // Create indicators
+        items.forEach((_, index) => {
+            const indicator = document.createElement('div');
+            indicator.classList.add('indicator');
+            if (index === 0) indicator.classList.add('active');
+            indicator.addEventListener('click', () => goToImage(index));
+            indicatorsContainer.appendChild(indicator);
+        });
+        
+        function updateGallery() {
+            gallery.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            // Update indicators
+            document.querySelectorAll('.indicator').forEach((indicator, index) => {
+                if (index === currentIndex) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+        
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % items.length;
+            updateGallery();
+        }
+        
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            updateGallery();
+        }
+        
+        function goToImage(index) {
+            currentIndex = index;
+            updateGallery();
+        }
+        
+        // Auto-advance (optional)
+        // setInterval(nextImage, 5000);
+    </script><br><br><br><br>
+
+
+
+
+<h2><img src="TV3 Ghana.png" width="100px" height="100px"> programs</h2> 
+    
+<div class="picture-container">
+    <div class="picture">
+        <div class="picture-item">
+            <img src="News 360 banner.png" alt="News 360" class="tv3-image">
+            <p class="picture-caption">News 360</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Newday banner.png" alt="Newday" class="tv3-image">
+            <p class="picture-caption">Newday</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Sports Station banner.png" alt="Sports Station" class="tv3-image">
+            <p class="picture-caption">Sports Station</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Ghana Tonight banner.png" alt="Ghana Tonight" class="tv3-image">
+            <p class="picture-caption">Ghana Tonight</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="The Afternoon Show banner.png" alt="The Afternoon Show" class="tv3-image">
+            <p class="picture-caption">The Afternoon Show</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="Business Focus banner.png" alt="Business Focus" class="tv3-image">
+            <p class="picture-caption">Business Focus</p>
+        </div>
+    </div>
+</div><br><br><br><br><br>
+
+
+<h2><img src="JoyNews.png" width="100px" height="100px"> programs</h2> 
+    
+<div class="picture-container">
+    <div class="picture">
+        <div class="picture-item">
+            <img src="JoyNews Prime banner.png" alt="JoyNews Prime" class="picture-image">
+            <p class="picture-caption">JoyNews Prime</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="JoyNews Today banner.png" alt="JoyNews Today" class="picture-image">
+            <p class="picture-caption">JoyNews Today</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="PM Express banner.png" alt="PM Express" class="picture-image">
+            <p class="picture-caption">PM Express</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="AM Show banner.png" alt="AM Show" class="picture-image">
+            <p class="picture-caption">AM Show</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="Upfront banner.png" alt="Upfront" class="picture-image">
+            <p class="picture-caption">Upfront</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="The Probe banner.png" alt="The Probe" class="picture-image">
+            <p class="picture-caption">The Probe</p>
+        </div>
+    </div>
+</div><br><br><br><br><br>
+
+
+<h2><img src="JoyPrime.png" width="100px" height="100px"> programs</h2> 
+    
+<div class="picture-container">
+    <div class="picture">
+        <div class="picture-item">
+            <img src="Prime Morning.png" alt="Prime Morning" class="picture-image">
+            <p class="picture-caption">Prime Morning</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="JoyNews Prime on JoyPrime.png" alt="JoyNews Prime" class="picture-image">
+            <p class="picture-caption">JoyNews Prime</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="JoyNews Today on JoyPrime.png" alt="JoyNews Today" class="picture-image">
+            <p class="picture-caption">JoyNews Today</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Changes banner.png" alt="Changes" class="picture-image">
+            <p class="picture-caption">Changes</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="Fresh Juice banner.png" alt="Fresh Juice" class="picture-image">
+            <p class="picture-caption">Fresh Juice</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="Sports Zone banner.png" alt="Sports Zone" class="picture-image">
+            <p class="picture-caption">Sports Zone</p>
+        </div>
+    </div>
+</div><br><br><br><br><br>
+
+
+<h2><img src="Adom TV.png" width="100px" height="100px"> programs</h2> 
+    
+<div class="picture-container">
+    <div class="picture">
+        <div class="picture-item">
+            <img src="Adom Kaseɛ banner.png" alt="Adom Kaseɛ" class="picture-image">
+            <p class="picture-caption">Adom Kaseɛ</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Badwam banner.png" alt="Badwam" class="picture-image">
+            <p class="picture-caption">Badwam</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Nkwa Hia banner.png" alt="Nkwa Hia" class="picture-image">
+            <p class="picture-caption">Nkwa Hia</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Fire for Fire banner.png" alt="Fire for Fire" class="picture-image">
+            <p class="picture-caption">Fire for Fire</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="Showtym banner.png" alt="Fresh Juice" class="picture-image">
+            <p class="picture-caption">Showtym</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="M'ahyɛaseɛ banner.png" alt="M'ahyɛaseɛ" class="picture-image">
+            <p class="picture-caption">M'ahyɛaseɛ</p>
+        </div>
+    </div>
+</div><br><br><br><br><br>
+
+
+<h2><img src="ChannelOne TV.png" width="100px" height="100px"> programs</h2> 
+    
+<div class="picture-container">
+    <div class="picture">
+        <div class="picture-item">
+            <img src="ChannelOne Newsroom.png" alt="ChannelOne Newsroom" class="picture-image">
+            <p class="picture-caption">ChannelOne Newsroom</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Breakfast Daily banner.png" alt="Breakfast Daily" class="picture-image">
+            <p class="picture-caption">Breakfast Daily</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Point of View banner.png" alt="Point of View" class="picture-image">
+            <p class="picture-caption">Point of View</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="The Big Issue banner.png" alt="The Big Issue" class="picture-image">
+            <p class="picture-caption">The Big Issue</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="Friends & Family Show banner.png" alt="Friends & Family Show" class="picture-image">
+            <p class="picture-caption">Friends & Family Show</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="Scorecard banner.png" alt="Scorecard" class="picture-image">
+            <p class="picture-caption">Scorecard</p>
+        </div>
+    </div>
+</div><br><br><br><br><br>
+
+
+
+<h2><img src="Onua TV.png" width="120px" height="100px"> programs</h2> 
+    
+<div class="picture-container">
+    <div class="picture">
+        <div class="picture-item">
+            <img src="Onua Maakye.png" alt="Onua Maakye" class="tv3-image">
+            <p class="picture-caption">Onua Maakye</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Onua Kaseɛbɔ.png" alt="Onua Kaseɛbɔ" class="tv3-image">
+            <p class="picture-caption">Onua Kaseɛbɔ</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Onua Showtime.png" alt="Onua Showtime" class="tv3-image">
+            <p class="picture-caption">Onua Showtime</p>
+        </div>
+        
+        <div class="picture-item">
+            <img src="Onua All Sports.png" alt="Onua All Sports" class="tv3-image">
+            <p class="picture-caption">Onua All Sports</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="Onua Doctor.png" alt="The Afternoon Show" class="tv3-image">
+            <p class="picture-caption">Onua Doctor</p>
+        </div>
+
+        <div class="picture-item">
+            <img src="Biribi Gyegye Wo.png" alt="Biribi Gyegye Wo" class="tv3-image">
+            <p class="picture-caption">Biribi Gyegye Wo</p>
+        </div>
+    </div>
+</div><br><br><br>
+
+<p>
+    <marquee>
+        <img src="TV3 Ghana.png" height="100px">
+        <img src="JoyNews.png" height="100px">
+        <img src="JoyPrime.png" height="100px">
+        <img src="Adom TV.png" height="100px" width="150px">
+        <img src="ChannelOne TV.png" height="100px">
+        <img src="Onua TV.png" height="100px" width="140px">
+    </marquee>
+</p><br><br><br>
+
+       <footer style="background: linear-gradient(90deg, red, yellow, green);">
+        <marquee>GHTVInfo 2025. All rights reserved.</marquee>
+       </footer>
+    </body>
+</html>

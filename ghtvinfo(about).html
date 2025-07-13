@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>About - GHTVInfo</title>
+        <link rel="icon" href="GHTVInfo.png">
+        <style>
+             /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.5;
+        }
+        
+        /* Top bar (like 3news red bar) */
+        .top-bar {
+            background: linear-gradient(90deg, red, yellow, green);
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        /* Main navigation */
+        .navbar {
+            background-color: grey;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            height: 70px;
+        }
+        
+        /* Logo styles */
+        .logo {
+            height: 40px;
+            width: 40px;
+            margin-right: 30px;
+        }
+        
+        /* Main nav links */
+        .nav-links {
+            list-style: none;
+            display: flex;
+            height: 100%;
+        }
+        .nav-links li {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links li a {
+            color: #333;
+            text-decoration: none;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+        
+        .nav-links li a:hover {
+            color: #e31837;
+        }
+        
+        /* Dropdown menus */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            top: 100%;
+            left: 0;
+            z-index: 1;
+            border-top: 3px solid #e31837;
+        }
+        
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #f0f0f0;
+            font-weight: normal;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f8f8f8;
+            color: #e31837;
+            padding-left: 25px;
+        }
+        
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+            animation: fadeIn 0.2s;
+        }
+        
+        /* Dropdown arrow indicator */
+        .dropdown > a::after {
+            content: ' ▼';
+            font-size: 0.6em;
+            color: #999;
+        }
+        
+        /* Active link style */
+        .active {
+            color: black !important;
+        }
+         /* Search and utility items */
+         .nav-utils {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-icon {
+            color: #333;
+            font-size: 18px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        
+        /* Animation for dropdown */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Mobile menu styles */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            color: #333;
+            font-size: 24px;
+            margin-left: 20px;
+        }
+        
+        /* Responsive design */
+        @media screen and (max-width: 992px) {
+            .top-bar {
+                display: none;
+            }
+            
+            .nav-container {
+                height: 60px;
+                padding: 0 15px;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                height: calc(100vh - 60px);
+                overflow-y: auto;
+                display: none;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                height: auto;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            .nav-links li a {
+                padding: 15px 20px;
+            }
+            
+            .dropdown-content {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                display: none;
+                border-top: none;
+            }
+            .dropdown:hover .dropdown-content {
+                display: none;
+            }
+            
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+        </style>
+    </head>
+    <body>
+         <!-- Top red bar -->
+    <div class="top-bar">
+        GHTVInfo - The home of all info on the major television stations in Ghana.
+    </div>
+    
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="ghtvinfo.html">
+                <img src="GHTVInfo.png" alt="News Logo" class="logo">
+            </a>
+            
+            <!-- Main Navigation Links -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="ghtvinfo.html" target="_blank">Home</a></li>
+                <li class="dropdown">
+                    <a href="news.html">Channels</a>
+                    <div class="dropdown-content">
+                        <a href="ghtvinfo(TV3 Ghana).html" target="_blank"><img src="TV3_Ghana_Logo.png" width="30px" height="30px"> TV3 Ghana</a>
+                        <a href="ghtvinfo(JoyNews).html"><img src="JoyNews.png" width="30px" height="30px"> Joy News</a>
+                        <a href="ghtvinfo(JoyPrime).html" target="_blank"><img src="JoyPrime.png" width="30px" height="30px"> Joy Prime</a>
+                        <a href="ghtvinfo(Adom TV).html" target="_blank"><img src="Adom TV.png" width="30px" height="30px"> Adom TV</a>
+                        <a href="ghtvinfo(ChannelOne TV).html" target="_blank"><img src="ChannelOne TV.png" height="30px" width="30px"> ChannelOne TV</a>
+                    </div>
+                </li>
+                <li><a href="ghtvinfo(about).html" class="active">About</a></li>
+            </ul>
+            
+            <!-- Search and mobile menu -->
+            <div class="nav-utils">
+                <div class="search-icon">🔍</div>
+                <div class="menu-toggle" id="menu-toggle">☰</div>
+            </div>
+        </div>
+    </nav>
+    <br><br><br>
+
+
+    <p>
+        <center><b> This is the home of the information of the major television stations in <span style="color: red;">Gh</span><span style="color: gold;">a</span><span style="color: green;">na</span>. </b></center>
+    </p><br><br><br><br>
+
+    <p>
+        <marquee>
+            <img src="TV3 Ghana.png" height="100px">
+            <img src="JoyNews.png" height="100px">
+            <img src="JoyPrime.png" height="100px">
+            <img src="Adom TV.png" height="100px" width="150px">
+            <img src="ChannelOne TV.png" height="100px">
+            <img src="Onua TV.png" height="100px" width="140px">
+        </marquee>
+    </p><br><br><br>
+
+
+    <footer style="background: linear-gradient(90deg, red, yellow, green);">
+        <marquee>GHTVInfo 2025. All rights reserved.</marquee>
+    </footer>
+    </body>
+</html>

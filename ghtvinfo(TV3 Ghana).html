@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TV3 Ghana - GHTVInfo</title>
+        <link rel="icon" href="GHTVInfo.png">
+        <style>
+             /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.5;
+        }
+        
+        /* Top bar (like 3news red bar) */
+        .top-bar {
+            background: linear-gradient(90deg, red, yellow, green);
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        /* Main navigation */
+        .navbar {
+            background-color: grey;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            height: 70px;
+        }
+        
+        /* Logo styles */
+        .logo {
+            height: 40px;
+            width: 40px;
+            margin-right: 30px;
+        }
+        
+        /* Main nav links */
+        .nav-links {
+            list-style: none;
+            display: flex;
+            height: 100%;
+        }
+        .nav-links li {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links li a {
+            color: #333;
+            text-decoration: none;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+        
+        .nav-links li a:hover {
+            color: #e31837;
+        }
+        
+        /* Dropdown menus */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            top: 100%;
+            left: 0;
+            z-index: 1;
+            border-top: 3px solid #e31837;
+        }
+        
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #f0f0f0;
+            font-weight: normal;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f8f8f8;
+            color: #e31837;
+            padding-left: 25px;
+        }
+        
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+            animation: fadeIn 0.2s;
+        }
+        
+        /* Dropdown arrow indicator */
+        .dropdown > a::after {
+            content: ' ▼';
+            font-size: 0.6em;
+            color: #999;
+        }
+        
+        /* Active link style */
+        .active {
+            color: black !important;
+        }
+         /* Search and utility items */
+         .nav-utils {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-icon {
+            color: #333;
+            font-size: 18px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        
+        /* Animation for dropdown */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Mobile menu styles */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            color: #333;
+            font-size: 24px;
+            margin-left: 20px;
+        }
+        
+        /* Responsive design */
+        @media screen and (max-width: 992px) {
+            .top-bar {
+                display: none;
+            }
+            
+            .nav-container {
+                height: 60px;
+                padding: 0 15px;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                height: calc(100vh - 60px);
+                overflow-y: auto;
+                display: none;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                height: auto;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            .nav-links li a {
+                padding: 15px 20px;
+            }
+            
+            .dropdown-content {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                display: none;
+                border-top: none;
+            }
+            .dropdown:hover .dropdown-content {
+                display: none;
+            }
+            
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+        .content-container {
+            display: flex;
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .image-section {
+            flex: 0 0 40%;
+            max-width: 40%;
+        }
+        
+        .image-section img {
+            width: 100%;
+            height: 100%;
+            scale: 60%;
+            object-fit: initial;
+            display: block;
+        }
+        
+        .text-section {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .text-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        .text-section p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .text-section ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .text-section li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #4a6bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .button:hover {
+            background-color: #3a56d4;
+        }
+        
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .content-container {
+                flex-direction: column;
+            }
+            
+            .image-section {
+                flex: 1;
+                max-width: 100%;
+                max-height: 300px;
+            }
+            
+            .text-section {
+                padding: 30px;
+            }
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        
+        h1 {
+            margin-bottom: 20px;
+            color: red;
+        }
+        
+        .gallery-container {
+            width: 100%;
+            overflow-x: auto;
+            padding: 20px 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .gallery {
+            display: flex;
+            gap: 20px;
+            padding: 0 20px;
+        }
+        
+        .gallery-item {
+            min-width: 200px;
+            text-align: center;
+            flex-shrink: 0;
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .gallery-image {
+            width: 220px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .gallery-caption {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        </style>
+    </head>
+    <body>
+         <!-- Top red bar -->
+    <div class="top-bar">
+        GHTVInfo - The home of all info on the major television stations in Ghana.
+    </div>
+    
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="ghtvinfo.html">
+                <img src="GHTVInfo.png" alt="News Logo" class="logo">
+            </a>
+            
+            <!-- Main Navigation Links -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="ghtvinfo.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="news.html">Channels</a>
+                    <div class="dropdown-content">
+                        <a href="ghtvinfo(TV3 Ghana).html" class="active"><img src="TV3 Ghana.png" width="30px" height="30px"> TV3 Ghana</a>
+                        <a href="ghtvinfo(JoyNews).html" target="_blank"><img src="JoyNews.png" width="30px" height="30px"> Joy News</a>
+                        <a href="ghtvinfo(JoyPrime).html" target="_blank"><img src="JoyPrime.png" width="30px" height="30px"> Joy Prime</a>
+                        <a href="ghtvinfo(Adom TV).html" target="_blank"><img src="Adom TV.png" width="30px" height="30px"> Adom TV</a>
+                        <a href="ghtvinfo(ChannelOne TV).html" target="_blank"><img src="ChannelOne TV.png" height="30px" width="30px"> ChannelOne TV</a>
+                        <a href="ghtvinfo(Onua TV).html" target="_blank"><img src="Onua TV.png" height="30px" width="30px"> Onua TV</a>
+                    </div>
+                </li>
+                <li><a href="ghtvinfo(about).html" target="_blank">About</a></li>
+            </ul>
+            
+            <!-- Search and mobile menu -->
+            <div class="nav-utils">
+                <div class="search-icon">🔍</div>
+                <div class="menu-toggle" id="menu-toggle">☰</div>
+            </div>
+        </div>
+    </nav>
+    <img src="TV3 cover banner.png" width="1264.5px" height="310px"><br><br>
+
+    <div class="content-container">
+        <div class="image-section">
+            <img src="TV3 Ghana.png" alt="Featured Image">
+        </div>
+        <div class="text-section">
+            <h2>TV3 Ghana</h2>
+            <p>TV3 Ghana is a popular television station in Ghana started in 1997. The channel is widely known in the country for its;</p>
+            
+            <ul>
+                <li>Riveting news content.</li>
+                <li>Compelling election coverage.</li>
+                <li>Exiting entertainment and lifestyle programs.</li>
+                <li>Intriguing sports content.</li>
+                <li>Award-winning reality programs.</li>
+            </ul>
+            
+            <p>Vist <b style="color: red;">www.3news.com</b> for news from TV3 as well as live stream of the station. Also you can get interactive on their media platforms.<br><br><br>
+                <a href="https://www.facebook.com/TV3GH"><img src="Facebook.webp" width="50px" height="50px"></a>
+                <a href="https://x.com/tv3_ghana"><img src="X.png" width="50px" height="50px"></a>
+                <a href="https://www.instagram.com/tv3_ghana/"><img src="Instagram.png" width="50px" height="50px"></a>
+                <a href="https://www.youtube.com/@TV3Ghana"><img src="YouTube_full-color_icon_(2017).svg.png" width="50px" height="50px"></a>
+                <a href="https://www.tiktok.com/@tv3gh_official"><img src="Tiktok.png" width="50px" height="50px"></a>
+            </p><br><br>
+
+            <p><span style="font-weight: bold; color: red;">T</span><span style="font-weight: bold; color: gold;">V</span><span style="font-weight: bold; color: green;">3</span><span style="font-weight: bold; color: black;"> Ghana</span> - First in News, Best in Entertainment.</p>
+        </div>
+    </div><br><br>
+
+    <h1>News and Current Affairs programs</h1>
+    
+    <div class="gallery-container">
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="Newday banner.png" alt="Newday" class="gallery-image">
+                <p class="gallery-caption">Newday</p>
+            </div>
+
+            <div class="gallery-item">
+                <img src="News Central banner.png" alt="News Central" class="gallery-image">
+                <p class="gallery-caption">News Central</p>
+            </div>
+
+            <div class="gallery-item">
+                <img src="News in Brief banner.png" alt="News in Brief" class="gallery-image">
+                <p class="gallery-caption">News in Brief</p>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="News 360 banner.png" alt="News 360" class="gallery-image">
+                <p class="gallery-caption">News 360</p>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="Agenda banner.png" alt="Agenda" class="gallery-image">
+                <p class="gallery-caption">Agenda</p>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="Ghana Tonight banner.png" alt="Ghana Tonight" class="gallery-image">
+                <p class="gallery-caption">Ghana Tonight</p>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="Keypoints banner.png" alt="The Keypoints" class="gallery-image">
+                <p class="gallery-caption">The Keypoints</p>
+            </div>
+            
+            <!-- Gallery Item 6 -->
+            <div class="gallery-item">
+                <img src="Weekend Central Banner.png" alt="Weekend Central" class="gallery-image">
+                <p class="gallery-caption">Weekend Central</p>
+            </div>
+            
+            <!-- Gallery Item 7 -->
+            <div class="gallery-item">
+                <img src="Hot Issues banner.png" alt="Hot Issues" class="gallery-image">
+                <p class="gallery-caption">Hot Issues</p>
+            </div>
+        </div>
+    </div><br><br>
+
+
+    <h1>Sports programs</h1>
+    
+    <div class="gallery-container">
+        <div class="gallery">
+            <!-- Gallery Item 1 -->
+            <div class="gallery-item">
+                <img src="Sports Daily banner.png" alt="Sports Daily" class="gallery-image">
+                <p class="gallery-caption">Sports Daily</p>
+            </div>
+            
+            <!-- Gallery Item 2 -->
+            <div class="gallery-item">
+                <img src="Sports Station banner.png" alt="Sports Station" class="gallery-image">
+                <p class="gallery-caption">Sports Station</p>
+            </div>
+            
+            <!-- Gallery Item 3 -->
+            <div class="gallery-item">
+                <img src="Warm Up+ banner.png" alt="Warm Up+" class="gallery-image">
+                <p class="gallery-caption">Warm Up+</p>
+            </div>
+            
+            <!-- Gallery Item 4 -->
+            <div class="gallery-item">
+                <img src="GPLXpress banner.png" alt="GPLXpress" class="gallery-image">
+                <p class="gallery-caption">GPLXpress</p>
+            </div>
+        </div>
+    </div><br><br>
+
+    <h1><span style="color: green;">Business programs</span></h1>
+    
+    <div class="gallery-container">
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="Biz Brief banner.png" alt="Biz Brief" class="gallery-image">
+                <p class="gallery-caption">Biz Brief</p>
+            </div>
+
+            <div class="gallery-item">
+                <img src="Business Focus banner.png" alt="Business Focus" class="gallery-image">
+                <p class="gallery-caption">Business Focus</p>
+            </div>
+        </div>
+    </div><br><br>
+
+
+    <h1><span style="color: purple;">Lifestyle & Entertainment programs</span></h1>
+    
+    <div class="gallery-container">
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="3Tunes.png" alt="3Tunes" class="gallery-image">
+                <p class="gallery-caption">3Tunes</p>
+            </div>
+
+            <div class="gallery-item">
+                <img src="The Afternoon Show banner.png" alt="The Afternoon Show" class="gallery-image">
+                <p class="gallery-caption">The Afternoon Show</p>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="TV3 Reality Catch Up banner.png" alt="TV3 Reality Catch Up" class="gallery-image">
+                <p class="gallery-caption">TV3 Reality Catch Up</p>
+            </div>
+
+            <div class="gallery-item">
+                <img src="The Trends banner.png" alt="The Trends" class="gallery-image">
+                <p class="gallery-caption">The Trends</p>
+            </div>
+
+            <div class="gallery-item">
+                <img src="Just Us Tonight banner.png" alt="Just Us Tonight" class="gallery-image">
+                <p class="gallery-caption">Just Us Tonight</p>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="Confessions banner.png" alt="Confessions" class="gallery-image">
+                <p class="gallery-caption">Confessions</p>
+            </div>
+
+            <div class="gallery-item">
+                <img src="McBrown's Kitchen banner.png" alt="McBrown's Kitchen" class="gallery-image">
+                <p class="gallery-caption">McBrown's Kitchen</p>
+            </div>
+
+            <div class="gallery-item">
+                <img src="The Ladies Circle banner.png" alt="The Ladies Circle" class="gallery-image">
+                <p class="gallery-caption">The Ladies Circle</p>
+            </div>
+
+            <div class="gallery-item">
+                <img src="Showbiz 360 banner.png" alt="Showbiz 360" class="gallery-image">
+                <p class="gallery-caption">Showbiz 360</p>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="The Delay Show banner.png" alt="The Delay Show" class="gallery-image">
+                <p class="gallery-caption">The Delay Show</p>
+            </div>
+        </div>
+    </div><br><br>
+
+    <h1><span style="color: grey;">Faith programs</span></h1>
+    
+    <div class="gallery-container">
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="The Power of Proprhecy banner.png" alt="The Power of Prophecy" class="gallery-image">
+                <p class="gallery-caption">The Power of Prophecy</p>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="Living Word banner.png" alt="Living Word" class="gallery-image">
+                <p class="gallery-caption">Living Word</p>
+            </div>
+        </div>
+    </div><br><br>
+
+
+    <h1><span style="color: black;">Seasonal reality programs</span></h1>
+    
+    <div class="gallery-container">
+        <div class="gallery">
+            <!-- Gallery Item 1 -->
+            <div class="gallery-item">
+                <img src="Perfect Match Xtra banner.png" alt="Perfect Match Xtra" class="gallery-image">
+                <p class="gallery-caption">Perfect Match Xtra</p>
+            </div>
+            
+            <!-- Gallery Item 2 -->
+            <div class="gallery-item">
+                <img src="Talented Kidz banner.png" alt="Talented Kidz" class="gallery-image">
+                <p class="gallery-caption">Talented Kidz</p>
+            </div>
+            
+            <!-- Gallery Item 3 -->
+            <div class="gallery-item">
+                <img src="Kitchen Wars banner.png" alt="Kitchen Wars" class="gallery-image">
+                <p class="gallery-caption">Kitchen Wars</p>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="Ghana's Most Beautiful banner.png" alt="Ghana's Most Beautiful" class="gallery-image">
+                <p class="gallery-caption">Ghana's Most Beautiful</p>
+            </div>
+
+            <div class="gallery-item">
+                <img src="Date Rush banner.png" alt="Date Rush" class="gallery-image">
+                <p class="gallery-caption">Date Rush</p>
+            </div>
+
+            <div class="gallery-item">
+                <img src="Mentor banner.png" alt="Mentor" class="gallery-image">
+                <p class="gallery-caption">Mentor</p>
+            </div>
+        </div>
+    </div><br><br>
+    <footer style="background: linear-gradient(90deg, red, yellow, green);">
+        <marquee>GHTVInfo 2025. All rights reserved.</marquee>
+    </footer>
+    </body>
+</html>
